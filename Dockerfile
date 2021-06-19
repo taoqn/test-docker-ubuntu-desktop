@@ -1,3 +1,3 @@
-FROM docker-ubuntu-vnc-desktop
+FROM dorowu/ubuntu-desktop-lxde-vnc
 USER root
 RUN apt-get update -y
