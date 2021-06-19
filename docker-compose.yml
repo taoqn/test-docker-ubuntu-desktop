@@ -1,0 +1,37 @@
+version: '3.9'
+
+networks:
+    jenkins:
+        driver: bridge
+
+services:
+    ubuntu-desktop:
+        image: dorowu/ubuntu-desktop-lxde-vnc
+        ports:
+            - 3000:80
+    docker-dind:
+        image: docker:dind
+        networks:
+            - jenkins
+                aliases:
+                    - docker
+        environment:
+            DOCKER_TLS_CERTDIR: /certs
+        volumes:
+            - jenkins-docker-certs:/certs/client
+            - jenkins-data:/var/jenkins_home
+    jenkins:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - 8080:8080
+            - 50000:50000
+        networks:
+            - jenkins
+        volumes:
+            - .\jenkins-data:/var/jenkins_home
+            - .\jenkins-docker-certs:/certs/client
+        environment:
+            DOCKER_TLS_VERIFY: 1
+            DOCKER_TLS_CERTDIR: /certs
