@@ -9,17 +9,18 @@ services:
         image: dorowu/ubuntu-desktop-lxde-vnc
         ports:
             - 3000:80
-    docker-dind:
+    docker:
         image: docker:dind
+        privileged: true
         networks:
             - jenkins
-                aliases:
-                    - docker
         environment:
             DOCKER_TLS_CERTDIR: /certs
         volumes:
-            - jenkins-docker-certs:/certs/client
-            - jenkins-data:/var/jenkins_home
+            - ./jenkins-docker-certs:/certs/client
+            - ./jenkins-data:/var/jenkins_home
+        storage-driver:
+            overlay2
     jenkins:
         build:
             context: .
@@ -30,8 +31,10 @@ services:
         networks:
             - jenkins
         volumes:
-            - .\jenkins-data:/var/jenkins_home
-            - .\jenkins-docker-certs:/certs/client
+            - ./jenkins-data:/var/jenkins_home
+            - ./jenkins-docker-certs:/certs/client
         environment:
             DOCKER_TLS_VERIFY: 1
             DOCKER_TLS_CERTDIR: /certs
+            DOCKER_CERT_PATH: /certs/client
+            DOCKER_HOST: tcp://docker:2376
