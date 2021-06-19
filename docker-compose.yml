@@ -16,8 +16,8 @@ services:
         environment:
             DOCKER_TLS_CERTDIR: /certs
         volumes:
-            - 'jenkins-docker-certs:/certs/client'
-            - 'jenkins-data:/var/jenkins_home'
+            - ./jenkins-docker-certs:/certs/client
+            - ./jenkins-data:/var/jenkins_home
         ports:
             - 2376:2376
 
@@ -31,8 +31,8 @@ services:
         networks:
             - jenkins
         volumes:
-            - 'jenkins-data:/var/jenkins_home'
-            - 'jenkins-docker-certs:/certs/client:ro'
+            - ./jenkins-data:/var/jenkins_home
+            - ./jenkins-docker-certs:/certs/client:ro
         environment:
             DOCKER_TLS_VERIFY: 1
             DOCKER_CERT_PATH: /certs/client
