@@ -5,10 +5,6 @@ networks:
         driver: bridge
 
 services:
-    ubuntu-desktop:
-        image: dorowu/ubuntu-desktop-lxde-vnc
-        ports:
-            - 3000:80
 #    docker:
 #        image: docker:dind
 #        networks:
