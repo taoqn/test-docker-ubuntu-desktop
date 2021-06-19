@@ -2,6 +2,8 @@ version: '3'
 
 services:
   ubuntu-desktop:
-    build: .
-#    ports:
-#      - "3000:80"
+    image: dorowu/ubuntu-desktop-lxde-vnc
+#    environment:
+#      PORT: 80
+    ports:
+      - "3000:80"
