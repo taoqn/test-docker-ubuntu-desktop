@@ -9,5 +9,6 @@ RUN add-apt-repository \
        "deb [arch=amd64] https://download.docker.com/linux/debian \
        $(lsb_release -cs) stable"
 RUN apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io
+RUN chmod 777 /var/run/docker.sock
 USER jenkins
 RUN jenkins-plugin-cli --plugins "blueocean:1.24.7 docker-workflow:1.26"
