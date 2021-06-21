@@ -1,19 +1,9 @@
-FROM jenkins/jenkins:2.289.1-lts-jdk11
+FROM docker
+
 USER root
-RUN apt-get update && apt-get install -y apt-transport-https \
-       ca-certificates curl gnupg2 \
-       software-properties-common
-RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
-RUN apt-key fingerprint 0EBFCD88
-RUN add-apt-repository \
-       "deb [arch=amd64] https://download.docker.com/linux/debian \
-       $(lsb_release -cs) stable"
-RUN apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt-get update -y
-RUN apt install -y nodejs
-RUN node --version
-RUN npm --version
-RUN apt install -y build-essential
-USER jenkins
-RUN jenkins-plugin-cli --plugins "blueocean:1.24.7 docker-workflow:1.26"
+
+RUN apk update
+RUN apk -s add curl && apk -s add wget && apk -s add rpm
+RUN apk -s add jenkins
+
+EXPOSE 8080
